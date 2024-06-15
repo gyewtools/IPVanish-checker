@@ -58,8 +58,18 @@ def attempt_login(username, password):
         with open('data/invalid.txt', 'a') as invalid_file:
             invalid_file.write(f"{account}\n")
 
-with open('combo.txt', 'r') as combo_file:
-    combos = [line.strip().split(':') for line in combo_file if line.strip()]
+combos = []
+with open('combo.txt', 'rb') as combo_file:
+    for line in combo_file:
+        try:
+            line = line.decode('utf-8').strip()
+            combo = line.split(':')
+            if len(combo) == 2:
+                combos.append(combo)
+            else:
+                Logger.failed(f"Skipping invalid line: {line}")
+        except UnicodeDecodeError:
+            Logger.failed(f"Skipping unreadable line at position: {combo_file.tell()}")
 
 def worker():
     while True:
