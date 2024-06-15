@@ -67,9 +67,9 @@ with open('combo.txt', 'rb') as combo_file:
             if len(combo) == 2:
                 combos.append(combo)
             else:
-                Logger.failed(f"Skipping invalid line: {line}")
+                print("invalidline")
         except UnicodeDecodeError:
-            Logger.failed(f"Skipping unreadable line at position: {combo_file.tell()}")
+            print("invalid line")
 
 def worker():
     while True:
